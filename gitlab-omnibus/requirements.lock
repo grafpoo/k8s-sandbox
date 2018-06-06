@@ -1,0 +1,6 @@
+dependencies:
+- name: gitlab-runner
+  repository: file://../gitlab-runner
+  version: 0.1.19
+digest: sha256:2d50e4398162a53b117814783a95c1b8278b3f2ca4ee267e9c2cbe56de9b2fb5
+generated: 2018-06-06T10:53:09.418709413-06:00

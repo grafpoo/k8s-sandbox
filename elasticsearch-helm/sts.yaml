@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elastic
+  namespace: zasu
+  labels:
+    app: elasticsearch
+    service: elastic
+  annotations:
+    'prometheus.io/scrape': 'true'
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9200
+    targetPort: 9200
+  selector:
+    app: elasticsearch
+    service: elastic
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: StatefulSet
+metadata:
+  name: elastic
+  namespace: zasu
+  labels:
+    app: elasticsearch
+    service: elastic
+spec:
+  serviceName: elastic
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        service: elastic
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: elastic
+        image: grafpoo/elasticsearch-1.2.1-java-8:initial
+        ports:
+        - name: http
+          containerPort: 9200
+        volumeMounts:
+        - name: elastic-data
+          mountPath: /elasticsearch-1.2.1/data
+        - name: elastic-logs
+          mountPath: /elasticsearch-1.2.1/logs
+      restartPolicy: Always
+  volumeClaimTemplates:
+  - metadata:
+      name: elastic-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 8Gi
+  - metadata:
+      name: elastic-logs
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi

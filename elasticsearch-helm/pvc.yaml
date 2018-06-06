@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: elogy
+  namespace: zasu
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: small-dyno
+  resources:
+    requests:
+      storage: 12Gi

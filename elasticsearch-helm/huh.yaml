@@ -1,0 +1,16 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: "foopvc"
+  labels:
+    app: "foopvc"
+    chart: "foo-0.1.0"
+    release: "RELEASE-NAME"
+    heritage: "Tiller"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "2Gi"
+  storageClassName: "small-dyno"
